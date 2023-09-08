@@ -37,10 +37,34 @@
     const form = document.getElementById('form');
     const input = document.getElementById('input');
 
+
+    var srcElement = document.getElementById("audio");
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (input.value) {
             socket.emit('chat message', input.value);
+
+
+            let python = fetch('/text', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({texts: [input.value]})
+            }).then(resPython => {
+                resPython.json().then(text => {
+
+                    socket.emit('chat message', text.resp);
+
+                    let respVoice = fetch('/api/tts?voice='+encodeURIComponent('ru_RU/multi_low#hajdurova')+'&noiseScale=0.667&noiseW=0.8&lengthScale=1&ssml=false&audioTarget=client&text='+encodeURIComponent(text.resp) ).then((res) => {
+                        res.blob().then(res => {
+                            srcElement.src = URL.createObjectURL(res);
+                            srcElement.play();
+                        });
+                    });
+                });
+
+            });
+
             input.value = '';
         }
     });
@@ -53,7 +77,6 @@
     });
 
 
-    var srcElement = document.getElementById("audio");
 
     let command = new SAWDVoiceCommand(
         {

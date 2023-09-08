@@ -10,6 +10,8 @@ services:
       dockerfile: ./Dockerfile
     image: python-hackaton
     restart: unless-stopped
+#    volumes:
+#      - ./python-text-server/src/server.py:/usr/server/server.py
     ports:
       - 5853:5000
 

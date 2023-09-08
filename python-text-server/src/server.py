@@ -36,7 +36,7 @@ def text():
     if not 'texts' in data:
       return json.dumps({'resp': 'не понял вопрос'})
 
-    return json.dumps({'resp': data['texts'][0]})
+    return json.dumps({'resp': ('ИИ говорит: '+data['texts'][0]) })
 
 
 
