@@ -1,0 +1,69 @@
+version: "3.7"
+services:
+
+  python:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: ./python-text-server
+      dockerfile: ./Dockerfile
+    image: python-hackaton
+    restart: unless-stopped
+    ports:
+      - 5853:5000
+
+
+  socketio:
+#    environment:
+#      SYNC_REQUEST: ${SYNC_REQUEST}
+    image: node:lts
+    working_dir: /usr/src/app
+    restart: unless-stopped
+    volumes:
+      - ./socketio:/usr/src/app
+      - ./socketio/node_modules:/usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    command: >
+      bash -c "npm i && npm run start"
+
+  whisper:
+    environment:
+      ASR_MODEL: small
+    image: onerahmet/openai-whisper-asr-webservice:latest
+    restart: unless-stopped
+    volumes:
+      - ./whisper:/root/.cache/whisper
+    ports:
+      - 9000:9000
+
+  ttss:
+#    environment:
+#      ASR_MODEL: base
+    image: mycroftai/mimic3:latest
+    restart: unless-stopped
+    volumes:
+      - ./texttospeech:/home/mimic3/.local/share/mycroft/mimic3
+    ports:
+      - 59125:59125
+
+  nginx:
+    image: nginx:alpine
+#    hostname: ${ODS_SM_GENERATE_UUIDv4_0}
+    restart: "no"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www/
+      - ./docker-compose/nginx:/etc/nginx/conf.d/:ro
+#      - ./nginx-ssl:/etc/nginx/ssl/
+#      - ./certbot/www:/var/www/certbot/:ro
+#      - ./certbot/conf/:/etc/nginx/ssl/:ro
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
