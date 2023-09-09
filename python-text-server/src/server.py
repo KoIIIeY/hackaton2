@@ -13,7 +13,7 @@ return the tokens returned by tiktoken.tokenize() for the prompt and model.
 
 '''
 
-
+from pipeline import *
 import json
 import re
 
@@ -40,7 +40,8 @@ def text():
       return json.dumps({'resp': 'не понял вопрос'})
 
     text = data['texts'][0];
-    text = 'ИИ говорит: ' + translit(text, 'ru')
+    text = main(text, data['train'])
+    text = translit(text, 'ru')
     text = re.sub(r"([0-9]+(\.[0-9]+)?)",r" \1 ", text).strip()
 
     return json.dumps({'resp':text })

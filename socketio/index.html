@@ -47,6 +47,57 @@
     </button>
     <div class="user-input">
         <form id="form" action="">
+            <select id="train">
+                <option>2М62</option>
+                <option>2М62У</option>
+                <option>2ТЭ116УД</option>
+                <option>2ТЭ116</option>
+                <option>2ТЭ70</option>
+                <option>2ЭС4К</option>
+                <option>2ЭС5К</option>
+                <option>3ЭС5К</option>
+                <option>2ТЭ10М</option>
+                <option>2ТЭ10МК</option>
+                <option>2ТЭ10У</option>
+                <option>2ТЭ10УК</option>
+                <option>2ЭС6</option>
+                <option>2ЭС7</option>
+                <option>2ЭС10</option>
+                <option>ВЛ10</option>
+                <option>ВЛ10У</option>
+                <option>ВЛ11</option>
+                <option>ВЛ11М</option>
+                <option>ВЛ11К</option>
+                <option>ВЛ15</option>
+                <option>ВЛ65</option>
+                <option>ВЛ80Р</option>
+                <option>ВЛ80С</option>
+                <option>ВЛ80Т</option>
+                <option>ВЛ85</option>
+                <option>ТЭМ2</option>
+                <option>ТЭМ7А</option>
+                <option>ТЭМ14</option>
+                <option>ТЭМ18Д</option>
+                <option>ДМ</option>
+                <option>ТЭП70</option>
+                <option>ТЭП70-БС</option>
+                <option>ЧС2</option>
+                <option>ЧС2К</option>
+                <option>ЧС2Т</option>
+                <option>ЧС4Т</option>
+                <option>ЧС6</option>
+                <option>ЧС200</option>
+                <option>ЧС7</option>
+                <option>ЧС-8</option>
+                <option>ЭП1</option>
+                <option>ЭП1М</option>
+                <option>ЭП2К</option>
+                <option>ЭП10</option>
+                <option>ЧМЭ3</option>
+                <option>2ТЭ25А</option>
+                <option>2ТЭ25КМ</option>
+                <option>ЭП20</option>
+            </select>
             <input type="text" id="text-input" />
 
             <button id="send-button">
@@ -96,6 +147,7 @@
 
     const messages = document.getElementById('messages');
     const form = document.getElementById('form');
+    const train = document.getElementById('train');
     const input = document.getElementById('text-input');
 
     const textInput = document.getElementById("text-input");
@@ -141,7 +193,7 @@
             let python = fetch('/text', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({texts: [input.value]})
+                body: JSON.stringify({texts: [input.value], train: train.options[train.selectedIndex].text})
             }).then(resPython => {
                 resPython.json().then(text => {
 
