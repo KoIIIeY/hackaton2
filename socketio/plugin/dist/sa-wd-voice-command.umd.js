@@ -6236,7 +6236,7 @@
 	  }
 	}
 
-	var css_248z = "\r\n.sawd_audio_button{\r\n    position:fixed;\r\n    width:60px;\r\n    height:60px;\r\n    bottom:40px;\r\n    right:40px;\r\n    background-color:#0C9;\r\n    color:#FFF;\r\n    border-radius:50px;\r\n    text-align:center;\r\n    box-shadow: 2px 2px 3px #999;\r\n}\r\n\r\n/*.sawd_audio_button>svg{*/\r\n/*    margin-top:22px;*/\r\n/*    width: 150px;*/\r\n/*    height: 150px;*/\r\n/*}*/";
+	var css_248z = "\r\n.sawd_audio_button{\r\n    position:fixed;\r\n    width:60px;\r\n    height:60px;\r\n    bottom:65px;\r\n    right:11px;\r\n    background-color:#0C9;\r\n    color:#FFF;\r\n    border-radius:50px;\r\n    text-align:center;\r\n    box-shadow: 2px 2px 3px #999;\r\n}\r\n\r\n/*.sawd_audio_button>svg{*/\r\n/*    margin-top:22px;*/\r\n/*    width: 150px;*/\r\n/*    height: 150px;*/\r\n/*}*/";
 	styleInject(css_248z);
 
 	class SAWDVoiceCommand {
