@@ -3,24 +3,85 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Socket.IO chat</title>
-    <style>
-        body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-
-        #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
-        #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
-        #input:focus { outline: none; }
-        #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
-
-        #messages { list-style-type: none; margin: 0; padding: 0; }
-        #messages > li { padding: 0.5rem 1rem; }
-        #messages > li:nth-child(odd) { background: #efefef; }
-    </style>
+    <link rel="stylesheet" href="/main.css" />
 </head>
 <body>
-<ul id="messages"></ul>
-<form id="form" action="">
-    <input id="input" autocomplete="off" /><button>Отправить</button>
-</form>
+
+
+
+<div class="chat-container">
+    <div class="chat-messages" id="chat-messages">
+        <div class="message received">Привет! Как я могу вам помочь?</div>
+    </div>
+    <button id="recorder" class="voice-button">
+        <svg
+                width="63"
+                height="63"
+                viewBox="0 0 63 63"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+        >
+            <g id="microphone/animation" clip-path="url(#clip0_1_2212)">
+                <path
+                        id="Vector"
+                        d="M44.625 28.875C44.625 36.12 38.745 42 31.5 42C24.255 42 18.375 36.12 18.375 28.875H13.125C13.125 38.1412 19.9762 45.7537 28.875 47.04V55.125H34.125V47.04C43.0238 45.7537 49.875 38.1412 49.875 28.875H44.625Z"
+                        fill="white"
+                />
+                <path
+                        id="Vector_2"
+                        d="M31.5 36.75C35.8575 36.75 39.375 33.2325 39.375 28.875V13.125C39.375 8.7675 35.8575 5.25 31.5 5.25C27.1425 5.25 23.625 8.7675 23.625 13.125V28.875C23.625 33.2325 27.1425 36.75 31.5 36.75ZM28.875 13.125C28.875 11.6813 30.0563 10.5 31.5 10.5C32.9438 10.5 34.125 11.6813 34.125 13.125V28.875C34.125 30.3188 32.9438 31.5 31.5 31.5C30.0563 31.5 28.875 30.3188 28.875 28.875V13.125Z"
+                        fill="white"
+                />
+                <path
+                        id="Vector_3"
+                        d="M31.5 36.75C35.8575 36.75 39.375 33.2325 39.375 28.875V15.75H31.5H23.625V28.875C23.625 33.2325 27.1425 36.75 31.5 36.75Z"
+                        fill="white"
+                />
+            </g>
+            <defs>
+                <clipPath id="clip0_1_2212">
+                    <rect width="63" height="63" fill="white" />
+                </clipPath>
+            </defs>
+        </svg>
+    </button>
+    <div class="user-input">
+        <form id="form" action="">
+            <input type="text" id="text-input" />
+
+            <button id="send-button">
+                <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g id="Frame">
+                        <path
+                                id="Vector"
+                                d="M18.3333 1.66663L9.16663 10.8333"
+                                stroke="white"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                        />
+                        <path
+                                id="Vector_2"
+                                d="M18.3333 1.66663L12.5 18.3333L9.16663 10.8333L1.66663 7.49996L18.3333 1.66663Z"
+                                stroke="white"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                        />
+                    </g>
+                </svg>
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+
 
 <audio id="audio" style="display: none;" controls>
     <source src="" >
@@ -35,7 +96,37 @@
 
     const messages = document.getElementById('messages');
     const form = document.getElementById('form');
-    const input = document.getElementById('input');
+    const input = document.getElementById('text-input');
+
+    const textInput = document.getElementById("text-input");
+    const sendButton = document.getElementById("send-button");
+    const chatMessages = document.getElementById("chat-messages");
+
+    const addUserMessage = (msg) => {
+        const userMessage = msg;
+
+        const userMessageDiv = document.createElement("div");
+        userMessageDiv.classList.add("message", "sent");
+        userMessageDiv.innerHTML = `<div class="message-icon">👤</div>${userMessage}`;
+
+        chatMessages.appendChild(userMessageDiv);
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    const addGptMessage = (msg) => {
+            // Пример ответа (заменить на реальный ответ):
+            const chatbotResponse = msg;
+
+            const chatbotMessageDiv = document.createElement("div");
+            chatbotMessageDiv.classList.add("message", "received");
+            chatbotMessageDiv.innerHTML = `<div class="message-icon">🤖</div>${chatbotResponse}`;
+
+            chatMessages.appendChild(chatbotMessageDiv);
+
+            // Прокручиваем область сообщений вниз
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
 
     var srcElement = document.getElementById("audio");
@@ -43,7 +134,8 @@
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (input.value) {
-            socket.emit('chat message', input.value);
+
+            addUserMessage(input.value);
 
 
             let python = fetch('/text', {
@@ -53,7 +145,8 @@
             }).then(resPython => {
                 resPython.json().then(text => {
 
-                    socket.emit('chat message', text.resp);
+                    addGptMessage(text.resp);
+                    // socket.emit('chat message', text.resp);
 
                     let respVoice = fetch('/api/tts?voice='+encodeURIComponent('ru_RU/multi_low#hajdurova')+'&noiseScale=0.667&noiseW=0.8&lengthScale=1&ssml=false&audioTarget=client&text='+encodeURIComponent(text.resp) ).then((res) => {
                         res.blob().then(res => {
@@ -69,32 +162,57 @@
         }
     });
 
-    socket.on('chat message', (msg) => {
-        const item = document.createElement('li');
-        item.textContent = msg;
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
-    });
+
+
 
 
 
     let command = new SAWDVoiceCommand(
         {
-            parent_html_element: document.querySelector('body'),
+            // parent_html_element: document.querySelector('body'),
+            button_html_element: document.getElementById('recorder'),
             callbacks: {
                 recognized: (str) => {
                     console.log('recognized', str);
-                    socket.emit('chat message', str);
+                    // socket.emit('chat message', str);
+                    addUserMessage(str);
                 },
                 tts: (blob, str) => {
-                    socket.emit('chat message', str);
+                    // socket.emit('chat message', str);
 
+                    addGptMessage(str);
                     srcElement.src = URL.createObjectURL(blob);
                     srcElement.play();
                 }
             }
         }
     );
+
+
+
+
+    // sendButton.addEventListener("click", () => {
+    //     const userMessage = textInput.value;
+    //     textInput.value = "";
+    //
+    //     const userMessageDiv = document.createElement("div");
+    //     userMessageDiv.classList.add("message", "sent");
+    //     userMessageDiv.innerHTML = `<div class="message-icon">👤</div>${userMessage}`;
+    //
+    //     chatMessages.appendChild(userMessageDiv);
+    //
+    //     // Пример ответа (заменить на реальный ответ):
+    //     const chatbotResponse = "Это ответ от ChatGPT.";
+    //
+    //     const chatbotMessageDiv = document.createElement("div");
+    //     chatbotMessageDiv.classList.add("message", "received");
+    //     chatbotMessageDiv.innerHTML = `<div class="message-icon">🤖</div>${chatbotResponse}`;
+    //
+    //     chatMessages.appendChild(chatbotMessageDiv);
+    //
+    //     // Прокручиваем область сообщений вниз
+    //     chatMessages.scrollTop = chatMessages.scrollHeight;
+    // });
 
 </script>
 </body>

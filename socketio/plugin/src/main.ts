@@ -112,14 +112,14 @@ class SAWDVoiceCommand {
 	}
 
 	changeButtonText(recording:boolean){
-		if(this.config.button_html_element){
-			if(recording){
-				this.config.button_html_element.innerHTML = this.config.images['recording'];
-			} else {
-				this.config.button_html_element.innerHTML = this.config.images[this.currentPermissionStatus?.state ?? 'denied'];
-			}
-
-		}
+		// if(this.config.button_html_element){
+		// 	if(recording){
+		// 		this.config.button_html_element.innerHTML = this.config.images['recording'];
+		// 	} else {
+		// 		this.config.button_html_element.innerHTML = this.config.images[this.currentPermissionStatus?.state ?? 'denied'];
+		// 	}
+		//
+		// }
 	}
 
 	startRecording() {

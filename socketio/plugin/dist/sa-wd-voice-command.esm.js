@@ -139,15 +139,14 @@ class SAWDVoiceCommand {
         }
     }
     changeButtonText(recording) {
-        var _a, _b;
-        if (this.config.button_html_element) {
-            if (recording) {
-                this.config.button_html_element.innerHTML = this.config.images['recording'];
-            }
-            else {
-                this.config.button_html_element.innerHTML = this.config.images[(_b = (_a = this.currentPermissionStatus) === null || _a === void 0 ? void 0 : _a.state) !== null && _b !== void 0 ? _b : 'denied'];
-            }
-        }
+        // if(this.config.button_html_element){
+        // 	if(recording){
+        // 		this.config.button_html_element.innerHTML = this.config.images['recording'];
+        // 	} else {
+        // 		this.config.button_html_element.innerHTML = this.config.images[this.currentPermissionStatus?.state ?? 'denied'];
+        // 	}
+        //
+        // }
     }
     startRecording() {
         if (this.recorder) {

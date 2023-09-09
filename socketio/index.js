@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/main.css', (req, res) => {
+    res.sendFile(__dirname + '/main.css');
+});
+
 app.get('/plugin.js', (req, res) => {
     res.sendFile(__dirname + '/plugin/dist/sa-wd-voice-command.umd.js');
 });

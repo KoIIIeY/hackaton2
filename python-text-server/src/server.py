@@ -15,6 +15,7 @@ return the tokens returned by tiktoken.tokenize() for the prompt and model.
 
 
 import json
+import re
 
 from transliterate import translit
 
@@ -40,6 +41,7 @@ def text():
 
     text = data['texts'][0];
     text = 'ИИ говорит: ' + translit(text, 'ru')
+    text = re.sub(r"([0-9]+(\.[0-9]+)?)",r" \1 ", text).strip()
 
     return json.dumps({'resp':text })
 
