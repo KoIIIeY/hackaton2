@@ -6,6 +6,7 @@
 
 FROM python:3.10-alpine
 RUN pip install flask
+RUN pip install -U transliterate
 COPY src/server.py /usr/server/server.py
 
 CMD ["python", "-m", "flask", "--app", "/usr/server/server.py", "run", "--host", "0.0.0.0"]

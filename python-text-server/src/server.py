@@ -16,6 +16,8 @@ return the tokens returned by tiktoken.tokenize() for the prompt and model.
 
 import json
 
+from transliterate import translit
+
 from flask import Flask, request
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -36,7 +38,10 @@ def text():
     if not 'texts' in data:
       return json.dumps({'resp': 'не понял вопрос'})
 
-    return json.dumps({'resp': ('ИИ говорит: '+data['texts'][0]) })
+    text = data['texts'][0];
+    text = 'ИИ говорит: ' + translit(text, 'ru')
+
+    return json.dumps({'resp':text })
 
 
 
