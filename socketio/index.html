@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Socket.IO chat</title>
+    <title>Голосовой помощник машиниста | ОАО РЖД</title>
     <link rel="stylesheet" href="/main.css" />
 </head>
 <body>
@@ -200,7 +200,7 @@
                     addGptMessage(text.resp);
                     // socket.emit('chat message', text.resp);
 
-                    let respVoice = fetch('/api/tts?voice='+encodeURIComponent('ru_RU/multi_low#hajdurova')+'&noiseScale=0.667&noiseW=0.8&lengthScale=1&ssml=false&audioTarget=client&text='+encodeURIComponent(text.resp) ).then((res) => {
+                    let respVoice = fetch('/api/tts?voice='+encodeURIComponent('ru_RU/multi_low#hajdurova')+'&noiseScale=0&noiseW=0&lengthScale=0.7&ssml=false&audioTarget=client&text='+encodeURIComponent(text.resp) ).then((res) => {
                         res.blob().then(res => {
                             srcElement.src = URL.createObjectURL(res);
                             srcElement.play();

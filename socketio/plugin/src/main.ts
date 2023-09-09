@@ -232,7 +232,7 @@ class SAWDVoiceCommand {
 				body: JSON.stringify({texts: [resp['text']], train: train.options[train.selectedIndex].text})
 			}).then(resPython => {
 				resPython.json().then(text => {
-					let respVoice = fetch('/api/tts?voice='+encodeURIComponent('ru_RU/multi_low#hajdurova')+'&noiseScale=0.667&noiseW=0.8&lengthScale=1&ssml=false&audioTarget=client&text='+encodeURIComponent(text.resp) ).then((res) => {
+					let respVoice = fetch('/api/tts?voice='+encodeURIComponent('ru_RU/multi_low#hajdurova')+'&noiseScale=0&noiseW=0&lengthScale=0.7&ssml=false&audioTarget=client&text='+encodeURIComponent(text.resp) ).then((res) => {
 						res.blob().then(res => this.config.callbacks.tts(res, text.resp));
 					});
 				});
